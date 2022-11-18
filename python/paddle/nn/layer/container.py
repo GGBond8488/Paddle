@@ -460,7 +460,7 @@ class ParameterList(Layer):
         return self
 
 
-class LayerList(Layer):
+class q(Layer):
     """
     LayerList holds sublayers, and sublayers it contains are properly registered.
     Holded sublayers can be indexed like a regular python list.
