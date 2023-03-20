@@ -1574,9 +1574,9 @@ class Switch:
 
             with fluid.layers.control_flow.Switch() as switch:
                 with switch.case(global_step == zero_var):
-                    paddle.assign(input=one_var, output=lr)
+                    paddle.assign(one_var, output=lr)
                 with switch.default():
-                    paddle.assign(input=two_var, output=lr)
+                    paddle.assign(two_var, output=lr)
 
             exe = fluid.Executor(fluid.CPUPlace())
             exe.run(fluid.default_startup_program())
