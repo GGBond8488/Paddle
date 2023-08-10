@@ -186,17 +186,6 @@ def log(x, name=None):
         return out
 
 
-@inplace_apis_in_dygraph_only
-def log_(x, name=None):
-    r"""
-    Inplace version of ``log`` API, the output Tensor will be inplaced with input ``x``.
-    Please refer to :ref:`api_paddle_log`.
-    """
-
-    if in_dynamic_mode():
-        return _C_ops.log_(x)
-
-
 def scale(x, scale=1.0, bias=0.0, bias_after_scale=True, act=None, name=None):
     """
     Scale operator.
@@ -1971,16 +1960,6 @@ def trunc(input, name=None):
         return out
 
 
-@inplace_apis_in_dygraph_only
-def trunc_(input, name=None):
-    r"""
-    Inplace version of ``trunc`` API, the output Tensor will be inplaced with input ``x``.
-    Please refer to :ref:`api_paddle_trunc`.
-    """
-    if in_dynamic_mode():
-        return _C_ops.trunc_(input)
-
-
 def mm(input, mat2, name=None):
     """
 
@@ -3204,17 +3183,6 @@ def log1p(x, name=None):
         return out
 
 
-@inplace_apis_in_dygraph_only
-def log1p_(x, name=None):
-    r"""
-    Inplace version of ``log1p`` API, the output Tensor will be inplaced with input ``x``.
-    Please refer to :ref:`api_paddle_log1p`.
-    """
-
-    if in_dynamic_mode():
-        return _C_ops.log1p_(x)
-
-
 def log2(x, name=None):
     r"""
     Calculates the log to the base 2 of the given input tensor, element-wise.
@@ -3278,17 +3246,6 @@ def log2(x, name=None):
         return out
 
 
-@inplace_apis_in_dygraph_only
-def log2_(x, name=None):
-    r"""
-    Inplace version of ``log2`` API, the output Tensor will be inplaced with input ``x``.
-    Please refer to :ref:`api_paddle_log2`.
-    """
-
-    if in_dynamic_mode():
-        return _C_ops.log2_(x)
-
-
 def log10(x, name=None):
     r"""
     Calculates the log to the base 10 of the given input tensor, element-wise.
@@ -3350,17 +3307,6 @@ def log10(x, name=None):
         out = helper.create_variable_for_type_inference(dtype)
         helper.append_op(type="log10", inputs={"X": x}, outputs={"Out": out})
         return out
-
-
-@inplace_apis_in_dygraph_only
-def log10_(x, name=None):
-    r"""
-    Inplace version of ``log10`` API, the output Tensor will be inplaced with input ``x``.
-    Please refer to :ref:`api_paddle_log10`.
-    """
-
-    if in_dynamic_mode():
-        return _C_ops.log10_(x)
 
 
 def clip(x, min=None, max=None, name=None):
@@ -4862,16 +4808,6 @@ def digamma(x, name=None):
         return out
 
 
-@inplace_apis_in_dygraph_only
-def digamma_(x, name=None):
-    r"""
-    Inplace version of ``digamma`` API, the output Tensor will be inplaced with input ``x``.
-    Please refer to :ref:`api_paddle_digamma`.
-    """
-    if in_dynamic_mode():
-        return _C_ops.digamma_(x)
-
-
 def lgamma(x, name=None):
     r"""
     Calculates the lgamma of the given input tensor, element-wise.
@@ -4908,16 +4844,6 @@ def lgamma(x, name=None):
         out = helper.create_variable_for_type_inference(x.dtype)
         helper.append_op(type='lgamma', inputs={'X': x}, outputs={'Out': out})
         return out
-
-
-@inplace_apis_in_dygraph_only
-def lgamma_(x, name=None):
-    r"""
-    Inplace version of ``lgamma`` API, the output Tensor will be inplaced with input ``x``.
-    Please refer to :ref:`api_paddle_lgamma`.
-    """
-    if in_dynamic_mode():
-        return _C_ops.lgamma_(x)
 
 
 def neg(x, name=None):
@@ -5017,17 +4943,6 @@ def atan2(x, y, name=None):
         return out
 
 
-@inplace_apis_in_dygraph_only
-def atan2_(x, y, name=None):
-    r"""
-    Inplace version of ``atan2`` API, the output Tensor will be inplaced with input ``x``.
-    Please refer to :ref:`api_paddle_atan2`.
-    """
-
-    if in_dynamic_mode():
-        return _C_ops.atan2_(x, y)
-
-
 def logit(x, eps=None, name=None):
     r"""
     This function generates a new tensor with the logit of the elements of input x. x is clamped to [eps, 1-eps] when eps is not zero. When eps is zero and x < 0 or x > 1, the function will yields NaN.
@@ -5086,18 +5001,6 @@ def logit(x, eps=None, name=None):
             attrs={'eps': eps},
         )
         return out
-
-
-@inplace_apis_in_dygraph_only
-def logit_(x, eps=None, name=None):
-    r"""
-    Inplace version of ``logit`` API, the output Tensor will be inplaced with input ``x``.
-    Please refer to :ref:`api_paddle_logit`.
-    """
-    if eps is None:
-        eps = 0.0
-    if in_dynamic_mode():
-        return _C_ops.logit_(x, eps)
 
 
 def lerp(x, y, weight, name=None):
@@ -5857,29 +5760,6 @@ def frac(x, name=None):
         return _elementwise_op(LayerHelper('elementwise_sub', **locals()))
 
 
-@inplace_apis_in_dygraph_only
-def frac_(x, name=None):
-    r"""
-    Inplace version of ``frac`` API, the output Tensor will be inplaced with input ``x``.
-    Please refer to :ref:`api_paddle_frac`.
-    """
-
-    if x.dtype not in [
-        paddle.int32,
-        paddle.int64,
-        paddle.float32,
-        paddle.float64,
-    ]:
-        raise TypeError(
-            "The data type of input must be one of ['int32', 'int64', 'float32', 'float64'], but got {}".format(
-                x.dtype
-            )
-        )
-    if in_dynamic_mode():
-        y = _C_ops.trunc(x)
-        return _C_ops.subtract_(x, y)
-
-
 def sgn(x, name=None):
     """
     For complex tensor, this API returns a new tensor whose elements have the same angles as the corresponding
@@ -6621,27 +6501,6 @@ def polygamma(x, n, name=None):
                 attrs={'n': n},
             )
         return out
-
-
-def polygamma_(x, n, name=None):
-    r"""
-    Inplace version of ``polygamma`` API, the output Tensor will be inplaced with input ``x``.
-    Please refer to :ref:`api_paddle_polygamma`.
-    """
-    if not isinstance(n, int):
-        raise TypeError(
-            "The input of n must be int type, but received: %s " % (type(n))
-        )
-    if n < 0:
-        raise ValueError(
-            "The input of n must be greater than or equal to 0. But received n = %s"
-            % (n)
-        )
-    if n == 0:
-        return digamma_(x)
-    else:
-        if in_dynamic_mode():
-            return _C_ops.polygamma_(x, n)
 
 
 def ldexp(x, y, name=None):
