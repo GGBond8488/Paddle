@@ -55,6 +55,7 @@ using framework::ir::Node;
 
 using GraphNodeVec = std::vector<Node*>;
 using GraphNodeMap = std::unordered_map<Node*, Node*>;
+static int64_t cinn_graph_index = 0;
 
 std::string GetDebugInfo(const std::unordered_set<std::string>& var_names) {
   std::string debug_info = "[";
@@ -766,7 +767,7 @@ void SearchAllSubgraphs(Graph* graph, bool is_inference_stage) {
           cluster_debug_info(cluster_outputs),
           cluster_debug_info(cluster_internals),
           FLAGS_static_runtime_data_save_path + "/cluster_" +
-              std::to_string(++i));
+              std::to_string(cinn_graph_index++));
     }
     // Replace the found cluster to a new cinn op node
     ReplaceSubGraphWithCinnOpNode(cluster_set,
